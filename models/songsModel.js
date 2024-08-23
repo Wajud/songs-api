@@ -35,3 +35,20 @@ export const create = async (songData) => {
     }
   });
 };
+
+export const update = (songPiece, id) => {
+  return new Promise((resolve, reject) => {
+    const song = songs.find((song) => song.id === id);
+    const songIndex = songs.findIndex((song) => song.id === id);
+    const updatedSong = {
+      id,
+      title: songPiece.title || song.title,
+      artiste: songPiece.artiste || song.artiste,
+      year: songPiece.year || song.year,
+      likes: songPiece.likes || song.likes,
+    };
+    songs[songIndex] = updatedSong;
+    writeSongsToFile("./data/songs.json", songs);
+    resolve(updatedSong);
+  });
+};

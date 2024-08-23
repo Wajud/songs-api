@@ -3,6 +3,7 @@ import {
   getSongs,
   getSongById,
   createSong,
+  updateSong,
 } from "./controllers/songsController.js";
 
 const server = createServer((req, res) => {
@@ -13,6 +14,9 @@ const server = createServer((req, res) => {
     getSongById(res, id);
   } else if (req.url === "/api/songs" && req.method === "POST") {
     createSong(req, res);
+  } else if (req.url.match(/\/api\/songs\/(.)+/) && req.method === "PUT") {
+    const id = req.url.split("/")[3];
+    updateSong(req, res, id);
   }
 });
 
