@@ -52,3 +52,16 @@ export const update = (songPiece, id) => {
     resolve(updatedSong);
   });
 };
+
+export const remove = (id) => {
+  return new Promise((resolve, reject) => {
+    const songIndex = songs.findIndex((song) => song.id === id);
+    if (songIndex === -1) {
+      reject("Song Not Found");
+    } else {
+      songs.splice(songIndex, 1);
+      writeSongsToFile("./data/songs.json", songs);
+      resolve();
+    }
+  });
+};

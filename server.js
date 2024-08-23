@@ -4,6 +4,7 @@ import {
   getSongById,
   createSong,
   updateSong,
+  deleteSong,
 } from "./controllers/songsController.js";
 
 const server = createServer((req, res) => {
@@ -17,6 +18,12 @@ const server = createServer((req, res) => {
   } else if (req.url.match(/\/api\/songs\/(.)+/) && req.method === "PUT") {
     const id = req.url.split("/")[3];
     updateSong(req, res, id);
+  } else if (req.url.match(/\/api\/songs\/(.)+/) && req.method === "DELETE") {
+    const id = req.url.split("/")[3];
+    deleteSong(res, id);
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end("Round Not Found");
   }
 });
 

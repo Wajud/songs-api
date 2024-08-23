@@ -1,4 +1,4 @@
-import { get, getById, create, update } from "../models/songsModel.js";
+import { get, getById, create, update, remove } from "../models/songsModel.js";
 import { getDataBody } from "../utils.js";
 
 export const getSongs = async (res) => {
@@ -23,22 +23,6 @@ export const getSongById = async (res, id) => {
 };
 
 export const createSong = async (req, res) => {
-  // try {
-  //   let body = "";
-  //   req.on("data", (chunk) => (body += chunk.toString()));
-  //   req.on("end", async () => {
-  //     const { title, artiste, year, likes } = JSON.parse(body);
-  //     const postBody = { title, artiste, year, likes };
-
-  //     const newSongs = await create(postBody);
-  //     res.writeHead(201, { "Content-Type": "application/json" });
-  //     res.end(JSON.stringify(newSongs));
-  //   });
-  // } catch (err) {
-  //   res.writeHead(400, { "Content-Type": "application/json" });
-  //   res.end(JSON.stringify({ message: err }));
-  // }
-
   try {
     const postBody = await getDataBody(req);
     const newSongs = await create(postBody);
@@ -58,6 +42,17 @@ export const updateSong = async (req, res, id) => {
     res.end(JSON.stringify(updatedSong));
   } catch (err) {
     res.writeHead(400, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: err }));
+  }
+};
+
+export const deleteSong = async (res, id) => {
+  try {
+    await remove(id);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Song Successfully Deleted" }));
+  } catch (err) {
+    res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: err }));
   }
 };
