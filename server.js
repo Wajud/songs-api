@@ -1,9 +1,12 @@
 import { createServer } from "http";
-import { getSongs } from "./controllers/songsController.js";
+import { getSongs, getSongById } from "./controllers/songsController.js";
 
 const server = createServer((req, res) => {
   if (req.url === "/api/songs" && req.method === "GET") {
     getSongs(res);
+  } else if (req.url.match(/\/api\/songs\/(.)+/) && req.method === "GET") {
+    const id = req.url.split("/")[3];
+    getSongById(res, id);
   }
 });
 

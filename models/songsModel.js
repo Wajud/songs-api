@@ -5,3 +5,13 @@ export const get = () => {
     resolve(songs);
   });
 };
+
+export const getById = (id) => {
+  return new Promise((resolve, reject) => {
+    const song = songs.find((song) => song.id === id);
+    if (!song) {
+      reject("Song requested not found");
+    }
+    resolve(song);
+  });
+};
